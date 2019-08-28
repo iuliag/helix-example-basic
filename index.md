@@ -1,4 +1,4 @@
-# Helix Example Zero
+# Helix: Basic Example
 
 It works, your Helix website is up and running!
 
