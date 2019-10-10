@@ -1,6 +1,11 @@
 # Basic Helix Example - Test code
 
-This is the test code for the Basic Helix Example, that you can run with `npm test`.
+This is the test code for the Basic Helix Example, that you can run with `npm test` after setting
+the TEST_DOMAIN environment variable, like
+
+    export TEST_DOMAIN=project-helix.page
+
+For now, this Helix project must be deployed to that domain before running the tests.
 
 This branch is checked out by the CircleCI config in the master branch and used to run tests against 
 the https://helix-example-basic-adobe.project-helix.page/ URL where the content found in the master branch 
