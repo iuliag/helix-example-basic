@@ -18,7 +18,7 @@ const request = require('request');
 const jquery = require('jquery');
 const { JSDOM } = require('jsdom');
 
-const HTTP_REQUEST_TIMEOUT_MSEC = 10000;
+const HTTP_REQUEST_TIMEOUT_MSEC = 20000;
 
 const testDomain = process.env.TEST_DOMAIN;
 if(!testDomain) {
