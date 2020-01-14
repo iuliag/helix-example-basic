@@ -9,20 +9,19 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
+/* eslint-env mocha */
 /* eslint-disable no-console */
-/* eslint-disable no-undef */
 
 const assert = require('assert');
-const request = require('request');
+const rp = require('request-promise-native');
 const jquery = require('jquery');
 const { JSDOM } = require('jsdom');
 
 const HTTP_REQUEST_TIMEOUT_MSEC = 20000;
 
 const testDomain = process.env.TEST_DOMAIN;
-if(!testDomain) {
-  throw new Error("Test domain missing, must be set by process.env.TEST_DOMAIN");
+if (!testDomain) {
+  throw new Error('Test domain missing, must be set by process.env.TEST_DOMAIN');
 }
 const testURL = `https://helix-example-basic-adobe.${testDomain}/?cacheKiller=${Math.random()}`;
 
@@ -37,15 +36,22 @@ describe(`Test the Helix Pages output from ${testURL}`, () => {
   const content = {};
 
   // "function" is needed for "this", to set timeout
-  // eslint-disable-next-line func-names
-  before(function (done) {
+  before(async function before() {
     this.timeout(HTTP_REQUEST_TIMEOUT_MSEC);
-    request(testURL, async (err, res, body) => {
-      if (err) done(err);
+    try {
+      const res = await rp({
+        uri: testURL,
+        headers: {
+          // 'x-debug': '<use fastly service id here>',
+        },
+        resolveWithFullResponse: true,
+      });
       assert.equal(res.statusCode, 200);
-      content.$ = jquery(new JSDOM(body).window);
-      done();
-    });
+      content.$ = jquery(new JSDOM(res.body).window);
+    } catch (e) {
+      console.log('response headers', e.response.headers);
+      throw e;
+    }
   });
 
   it('Contains the page title', () => {
