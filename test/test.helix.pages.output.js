@@ -47,6 +47,7 @@ describe(`Test the Helix Pages output from ${testURL}`, () => {
         resolveWithFullResponse: true,
       });
       assert.equal(res.statusCode, 200);
+      console.log(res.body);
       content.$ = jquery(new JSDOM(res.body).window);
     } catch (e) {
       console.log('response headers', e.response.headers);
@@ -74,7 +75,7 @@ describe(`Test the Helix Pages output from ${testURL}`, () => {
 
   it('Contains the expected links', () => {
     [
-      'README.html',
+      './README.html',
       '/index.html',
       'https://www.hlx.page/',
     ].forEach((href) => {
